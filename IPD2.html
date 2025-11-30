@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePass - Password Checker</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #4b79a1, #283e51);
+            color: white;
+            min-height: 100vh;
+            animation: bgMove 8s infinite alternate;
+        }
+
+        @keyframes bgMove {
+            0% { background-position: left; }
+            100% { background-position: right; }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: fadeIn 1.3s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.85;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.12);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .strength-bar {
+            margin-top: 15px;
+            height: 10px;
+            width: 100%;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+
+        .fill {
+            height: 100%;
+            width: 0%;
+            background: red;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .label {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .feature-box {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.25);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .cta-btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 30px;
+            background: #00d4ff;
+            border-radius: 50px;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 15px #00d4ff;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            box-shadow: 0 0 25px #00d4ff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <h1>SecurePass</h1>
+        <p>Instant password strength checker for safer accounts.</p>
+        <a href="#demo" class="cta-btn">Try Demo</a>
+    </div>
+
+    <div class="container" id="demo">
+        <h2>Password Strength Checker</h2>
+        <input type="password" id="password" placeholder="Enter password...">
+
+        <div class="strength-bar">
+            <div class="fill" id="fill"></div>
+        </div>
+
+        <div class="label" id="strengthLabel">Strength: -</div>
+
+        <div class="feature-box">
+            <h3>Features</h3>
+            <ul>
+                <li>Instant password strength score</li>
+                <li>Checks length & character variety</li>
+                <li>Fully client-side (safe demo)</li>
+                <li>Modern UI + animations + improved</li>
+                <li>Don't Worry It Is Safe To Use</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const password = document.getElementById("password");
+        const fill = document.getElementById("fill");
+        const label = document.getElementById("strengthLabel");
+
+        password.addEventListener("input", () => {
+            let val = password.value;
+            let strength = 0;
+
+            if (val.length >= 6) strength++;
+            if (val.length >= 10) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+            let percent = (strength / 5) * 100;
+
+            fill.style.width = percent + "%";
+
+            if (percent <= 40) {
+                fill.style.background = "red";
+                label.textContent = "Strength: Weak";
+            } else if (percent <= 70) {
+                fill.style.background = "orange";
+                label.textContent = "Strength: Medium";
+            } else {
+                fill.style.background = "lime";
+                label.textContent = "Strength: Strong";
+            }
+        });
+    </script>
+
+</body>
+</html>
